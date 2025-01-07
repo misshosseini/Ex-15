@@ -1,4 +1,4 @@
 Flask==2.3.2
-joblib
-scikit-learn
-werkzeug
+joblib==1.4.2
+scikit-learn==1.6.0
+Werkzeug==3.1.3
