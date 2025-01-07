@@ -1,19 +1,46 @@
+<!DOCTYPE html>
+<html>
 <head>
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-
+    <title>پیش‌بینی قیمت مسکن</title>
+    <!-- لینک به CSS بوت‌استرپ -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
-    <div class="App">
-        <header class="App-header">
-            <img src="{{ url_for('static', filename='Octocat.png') }}" class="App-logo" alt="logo" />
-            <p>
-                GitHub Codespaces <span class="heart">♥️</span> Flask
-            </p>
-            <p class="small">
-                Edit <code>templates/index.html</code> and refresh to see your changes!
-            </p>
-        </header>
+    <div class="container">
+        <h1 class="mt-5">ورود داده برای پیش‌بینی قیمت مسکن</h1>
+        <form id="prediction-form" class="mt-4">
+            <div class="form-group">
+                <label for="MedInc">درآمد میانه (MedInc):</label>
+                <input type="text" class="form-control" id="MedInc" name="MedInc" required>
+            </div>
+            <div class="form-group">
+                <label for="HouseAge">سن خانه (HouseAge):</label>
+                <input type="text" class="form-control" id="HouseAge" name="HouseAge" required>
+            </div>
+            <div class="form-group">
+                <label for="AveRooms">میانگین تعداد اتاق‌ها (AveRooms):</label>
+                <input type="text" class="form-control" id="AveRooms" name="AveRooms" required>
+            </div>
+            <button type="submit" class="btn btn-primary">پیش‌بینی</button>
+        </form>
+        <div id="prediction-result" class="mt-4"></div>
     </div>
+    <!-- لینک به JS بوت‌استرپ و AJAX -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#prediction-form').on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '/predict',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#prediction-result').html('<h3>پیش‌بینی قیمت مسکن: ' + response.prediction + '</h3>');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-
 </html>
